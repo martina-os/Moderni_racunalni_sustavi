@@ -1,0 +1,232 @@
+class Hangman
+{
+   field String solution;
+   field String correctGuesses;
+   constructor Hangman new()
+   {
+      var String hangman, guesses;
+      var int i;
+      //var int answerLength;
+      do Output.moveCursor(0, 26);
+      let hangman = "HANGMAN";
+      let guesses = "Guesses:";
+      let i = 0;
+      
+      let solution = "MODERNI RACUNALNI SUSTAVI";
+      let correctGuesses = String.new(solution.length());
+      while(i < (solution.length()))
+      {
+         let correctGuesses = correctGuesses.appendChar(219); //stavlja crne kvadratiće za riječ
+         let i = i+1; 
+      }
+      do Output.printString(hangman);
+      do Output.println();
+      do Output.println();
+      do Output.printString(guesses);
+      do Output.println();
+      return this;
+   }
+   
+   //pokreće igru
+   method void run()
+   {
+      var boolean endGame;
+      var int line, wrongGuesses;
+      var char guess;
+
+      let wrongGuesses = 0;
+      let line = 3; 
+      let endGame = false;
+      do drawHangPost();
+      
+      while(~(endGame))
+      {
+         do Output.printString(correctGuesses);
+         do Output.moveCursor(line,26); //za pokušaje
+         let line = line + 1;  
+         let guess = Keyboard.readChar();
+         do Output.println();
+         if (guess = 140)  { let endGame = true; }
+         if(~(isCorrectGuess(guess)))
+         {
+            if(wrongGuesses = 0)
+            {
+               do drawHead();
+            }
+            if(wrongGuesses = 1)
+            {
+               do drawTorso();
+            }
+            if(wrongGuesses = 2)
+            {
+               do drawRightArm();
+            }
+            if(wrongGuesses = 3)
+            {
+               do drawLeftArm();
+            }
+            if(wrongGuesses = 4)
+            {
+               do drawRightLeg();
+            }
+            if(wrongGuesses = 5)
+            {
+               do drawLeftLeg();
+               
+            }
+            if(wrongGuesses = 6)
+            {
+               do drawEyes();
+            }
+            if(wrongGuesses = 7)
+            {
+               do drawSadSmile();
+
+               do Output.printString("Trazena rijec je: ");
+               do Output.println();
+			      do Output.printString(solution);
+			      do Output.println();
+               do Output.printString("GAME OVER!");
+               let endGame = true;
+            }
+            let wrongGuesses = wrongGuesses + 1; 
+         }
+         if(isWin())
+         {
+            do Output.printString(correctGuesses);
+            do Output.println();
+            do Output.printString("You win!");
+            let endGame = true;
+         }
+      }
+      return;
+   }
+   
+   //provjeri je li igrac pobijedio
+   method boolean isWin()
+   {
+      var int i;
+      let i = 0;
+      while(i < correctGuesses.length())
+      {
+         if(correctGuesses.charAt(i) = 219) //znači da igrač nije pogodio
+         {
+            return false; 
+         }
+         let i = i+1;
+      }
+      return true; 
+   }
+   
+   //provjerava da li je uneseno slovo u riječi
+   method boolean isCorrectGuess(char guess)
+   { 
+      var int i, j;
+      let i = 0;
+	   let j = 0;
+      while(i < solution.length())
+      {
+         if(guess = solution.charAt(i))
+         {
+            do correctGuesses.setCharAt(i, guess);
+         }
+         let i=i+1;
+      }
+	  while(j < solution.length())
+      {
+         if(guess = solution.charAt(j))
+         {
+            do correctGuesses.setCharAt(j, guess);
+			return true;
+         }
+         let j=j+1;
+      }
+	  return false;
+   }
+   
+   //nacrtaj vješalo
+   method void drawHangPost()
+   { 
+      do Screen.setColor(true);
+      do Screen.drawRectangle(350, 200, 450, 220);
+      do Screen.drawRectangle(395,50,405,200);
+      do Screen.drawRectangle(300,40,405,50);
+      do Screen.drawRectangle(300,40,310,70);
+      return;
+   }
+   
+   // ostale funkcije za crtanje
+   method void drawHead()
+   {
+      do Screen.drawCircle(305,90,20);
+      return;
+   }
+   method void drawTorso()
+   {
+      do Screen.drawLine(305,110, 305, 160);
+      return;
+   }
+   method void drawRightArm()
+   {
+      do Screen.drawLine(305,135, 320, 120);
+      return;
+   }
+
+   method void drawLeftArm()
+   {
+      do Screen.drawLine(305,135, 290, 120);
+      return;
+   }
+   method void drawRightLeg()
+   {
+      do Screen.drawLine(305,160, 325, 180);
+      return;
+   }
+   method void drawLeftLeg()
+   {
+      do Screen.drawLine(305,160, 285, 180);
+      return;
+   }
+
+   method void drawEyes()
+   {
+      do Screen.setColor(false);
+      do Screen.drawCircle(297,85,5);
+      do Screen.drawCircle(313,85,5);
+      do Screen.setColor(true);
+      do Screen.drawPixel(297,85);
+      do Screen.drawPixel(313,85);
+      return;
+   }
+
+   method void drawSadSmile()
+   {
+      do Screen.setColor(false);
+      do Screen.drawPixel(297, 100);
+      do Screen.drawPixel(305, 97);
+      do Screen.drawPixel(298, 99);
+      do Screen.drawPixel(299, 98);
+      do Screen.drawPixel(300, 98);
+      do Screen.drawPixel(301, 97);
+      do Screen.drawPixel(302, 97);
+      do Screen.drawPixel(303, 97);
+      do Screen.drawPixel(304, 97);
+
+      do Screen.drawPixel(306, 97);
+      do Screen.drawPixel(307, 97);
+      do Screen.drawPixel(308, 97);
+      do Screen.drawPixel(309, 98);
+      do Screen.drawPixel(310, 98);
+      do Screen.drawPixel(311, 99);
+      do Screen.drawPixel(312, 100);
+
+      return;
+   }
+
+   //dealociraj objekt u memoriji
+   method void dispose()
+   {
+     do Memory.deAlloc(this);
+     return;
+   }
+}

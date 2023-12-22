@@ -1,0 +1,32 @@
+class Main
+{
+   function void main()
+   {
+      var Hangman game;
+      var Hangmandvaigraca gamedvaigraca;
+
+		var char m;
+      var int i; 
+	   let i = 0;
+	   do Output.printString("Enter the number of players (1 or 2):");
+	   let m = Keyboard.readChar();
+	   do Screen.clearScreen();
+	  if(m = 49)
+	  {
+      let game = Hangman.new();
+      do game.run();
+	  }
+     else{
+		  while (i<2)
+		  {
+		  let gamedvaigraca = Hangmandvaigraca.new();
+		  do gamedvaigraca.run();
+		  do Sys.wait(2000);
+		  do Screen.clearScreen();
+		  do gamedvaigraca.dispose();
+		  let i = i + 1;
+		  }
+	  }
+      return;
+   }
+}
